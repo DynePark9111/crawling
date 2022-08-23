@@ -23,7 +23,16 @@ const checkDB = async (req, res) => {
   const { platform } = req.params;
   try {
     const dbData = await getMongoDB(platform);
-    res.status(201).json({ length: dbData.length, data: dbData });
+    res.status(201).json({ [platform]: dbData.length });
+  } catch (error) {
+    res.status(409).json({ message: `checkNaver error` });
+  }
+};
+
+const checkAllDB = async (req, res) => {
+  try {
+    const naver = await getMongoDB("naver");
+    res.status(201).json({ naver: naver.length });
   } catch (error) {
     res.status(409).json({ message: `checkNaver error` });
   }
@@ -33,4 +42,5 @@ module.exports = {
   checkUpdates,
   checkNaver,
   checkDB,
+  checkAllDB,
 };

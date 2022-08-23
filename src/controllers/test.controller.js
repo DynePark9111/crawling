@@ -18,7 +18,17 @@ const reset = async (req, res) => {
   }
 };
 
+const resetAll = async (req, res) => {
+  try {
+    deleteMongoDB();
+    res.status(201).json({ message: "reset successful" });
+  } catch (error) {
+    res.status(409).json({ message: `reset error` });
+  }
+};
+
 module.exports = {
   test,
   reset,
+  resetAll,
 };
