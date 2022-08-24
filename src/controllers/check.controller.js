@@ -1,10 +1,12 @@
 const { getMongoDB } = require("../utils/functions");
 const { getUpdatedList } = require("../utils/naver");
+const { getUpdatedListKakao } = require("../utils/kakao");
 
-const checkUpdates = async (req, res) => {
+const checkAll = async (req, res) => {
   try {
-    const [webtoonsLength] = await getUpdatedList();
-    res.status(201).json({ naver: webtoonsLength });
+    const [naver] = await getUpdatedList();
+    const [kakao] = await getUpdatedListKakao();
+    res.status(201).json({ naver, kakao });
   } catch (error) {
     res.status(409).json({ message: `checkNaver error` });
   }
@@ -12,8 +14,27 @@ const checkUpdates = async (req, res) => {
 
 const checkNaver = async (req, res) => {
   try {
-    const [webtoonsLength] = await getUpdatedList();
-    res.status(201).json({ newWebtoons: webtoonsLength });
+    const [naver] = await getUpdatedList();
+    res.status(201).json({ naver });
+  } catch (error) {
+    res.status(409).json({ message: `checkNaver error` });
+  }
+};
+
+const checkKakao = async (req, res) => {
+  try {
+    const [kakao] = await getUpdatedListKakao();
+    res.status(201).json({ kakao });
+  } catch (error) {
+    res.status(409).json({ message: `checkKakao error` });
+  }
+};
+
+const checkAllDB = async (req, res) => {
+  try {
+    const naver = await getMongoDB("naver");
+    const kakao = await getMongoDB("kakao");
+    res.status(201).json({ naver: naver.length, kakao: kakao.length });
   } catch (error) {
     res.status(409).json({ message: `checkNaver error` });
   }
@@ -25,22 +46,14 @@ const checkDB = async (req, res) => {
     const dbData = await getMongoDB(platform);
     res.status(201).json({ [platform]: dbData.length });
   } catch (error) {
-    res.status(409).json({ message: `checkNaver error` });
-  }
-};
-
-const checkAllDB = async (req, res) => {
-  try {
-    const naver = await getMongoDB("naver");
-    res.status(201).json({ naver: naver.length });
-  } catch (error) {
-    res.status(409).json({ message: `checkNaver error` });
+    res.status(409).json({ message: `platform:${platform} check error` });
   }
 };
 
 module.exports = {
-  checkUpdates,
+  checkAll,
   checkNaver,
-  checkDB,
+  checkKakao,
   checkAllDB,
+  checkDB,
 };

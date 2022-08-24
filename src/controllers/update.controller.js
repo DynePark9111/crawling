@@ -1,4 +1,5 @@
 const { logTime } = require("../utils/functions");
+const { checkAndUpdateKakao } = require("../utils/kakao");
 const { checkAndUpdateNaver } = require("../utils/naver");
 
 const forceUpdateAll = async (req, res) => {
@@ -20,7 +21,18 @@ const forceUpdateNaver = async (req, res) => {
   }
 };
 
+const forceUpdateKakao = async (req, res) => {
+  logTime("forceUpdateKakao");
+  try {
+    const webtoonsUpdated = await checkAndUpdateKakao();
+    res.status(201).json({ webtoonsUpdated });
+  } catch (error) {
+    res.status(409).json({ message: `updateKakao error` });
+  }
+};
+
 module.exports = {
   forceUpdateAll,
   forceUpdateNaver,
+  forceUpdateKakao,
 };

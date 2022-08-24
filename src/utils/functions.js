@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const NewWebtoon = require("../models/newWebtoon.model");
 
 function logTime(message) {
@@ -42,10 +43,19 @@ async function deleteMongoDB(platform) {
   return dbData;
 }
 
+async function getHTML(url) {
+  try {
+    return await axios.get(url);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   logTime,
   getUniqueObjectFromArray,
   postMongoDB,
   getMongoDB,
   deleteMongoDB,
+  getHTML,
 };
