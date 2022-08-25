@@ -6,6 +6,7 @@ const cors = require("cors");
 const checkRoutes = require("./src/routes/check.routes");
 const updateRoutes = require("./src/routes/update.routes");
 const testRoutes = require("./src/routes/test.routes");
+const dbRoutes = require("./src/routes/db.routes");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
@@ -31,6 +32,7 @@ mongoose
 
 // Routes
 app.use("/check", checkRoutes);
+app.use("/db", dbRoutes);
 app.use("/update", updateRoutes);
 app.use("/test", testRoutes);
 
