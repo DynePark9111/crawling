@@ -1,16 +1,16 @@
 const { getMongoDB } = require("../utils/functions");
 
-const checkAllDB = async (req, res) => {
+const getAllDB = async (req, res) => {
   try {
     const naver = await getMongoDB("naver");
     const kakao = await getMongoDB("kakao");
     res.status(201).json({ naver: naver.length, kakao: kakao.length });
   } catch (error) {
-    res.status(409).json({ message: `checkNaver error` });
+    res.status(409).json({ message: `getAllDB error` });
   }
 };
 
-const checkDB = async (req, res) => {
+const getDB = async (req, res) => {
   const { platform } = req.params;
   try {
     const dbData = await getMongoDB(platform);
@@ -20,7 +20,28 @@ const checkDB = async (req, res) => {
   }
 };
 
+const deleteAllDB = async (req, res) => {
+  const { platform } = req.params;
+  try {
+    deleteMongoDB(platform);
+    res.status(201).json({ message: "reset successful" });
+  } catch (error) {
+    res.status(409).json({ message: `deleteAllDB error` });
+  }
+};
+
+const deleteDB = async (req, res) => {
+  try {
+    deleteMongoDB();
+    res.status(201).json({ message: "reset successful" });
+  } catch (error) {
+    res.status(409).json({ message: `deleteDB error` });
+  }
+};
+
 module.exports = {
-  checkAllDB,
-  checkDB,
+  getAllDB,
+  getDB,
+  deleteAllDB,
+  deleteDB,
 };

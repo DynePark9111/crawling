@@ -1,36 +1,36 @@
 const { getUpdatedList } = require("../utils/naver");
 const { getUpdatedListKakao } = require("../utils/kakao");
 
-const checkAll = async (req, res) => {
+const newAll = async (req, res) => {
   try {
     const [naver] = await getUpdatedList();
     const [kakao] = await getUpdatedListKakao();
     res.status(201).json({ naver, kakao });
   } catch (error) {
-    res.status(409).json({ message: `checkNaver error` });
+    res.status(409).json({ message: `newNaver error` });
   }
 };
 
-const checkNaver = async (req, res) => {
+const newNaver = async (req, res) => {
   try {
     const [naver] = await getUpdatedList();
     res.status(201).json({ naver });
   } catch (error) {
-    res.status(409).json({ message: `checkNaver error` });
+    res.status(409).json({ message: `newNaver error` });
   }
 };
 
-const checkKakao = async (req, res) => {
+const newKakao = async (req, res) => {
   try {
     const [kakao] = await getUpdatedListKakao();
     res.status(201).json({ kakao });
   } catch (error) {
-    res.status(409).json({ message: `checkKakao error` });
+    res.status(409).json({ message: `newKakao error` });
   }
 };
 
 module.exports = {
-  checkAll,
-  checkNaver,
-  checkKakao,
+  newAll,
+  newNaver,
+  newKakao,
 };

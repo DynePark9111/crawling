@@ -2,7 +2,7 @@ const { logTime } = require("../utils/functions");
 const { checkAndUpdateKakao } = require("../utils/kakao");
 const { checkAndUpdateNaver } = require("../utils/naver");
 
-const forceUpdateAll = async (req, res) => {
+const UpdateAll = async (req, res) => {
   const result = { message: "updateAll" };
   try {
     res.status(201).json(result);
@@ -11,8 +11,8 @@ const forceUpdateAll = async (req, res) => {
   }
 };
 
-const forceUpdateNaver = async (req, res) => {
-  logTime("forceUpdateNaver");
+const UpdateNaver = async (req, res) => {
+  logTime("UpdateNaver");
   try {
     const webtoonsUpdated = await checkAndUpdateNaver();
     res.status(201).json({ webtoonsUpdated });
@@ -21,8 +21,8 @@ const forceUpdateNaver = async (req, res) => {
   }
 };
 
-const forceUpdateKakao = async (req, res) => {
-  logTime("forceUpdateKakao");
+const UpdateKakao = async (req, res) => {
+  logTime("UpdateKakao");
   try {
     const webtoonsUpdated = await checkAndUpdateKakao();
     res.status(201).json({ webtoonsUpdated });
@@ -32,7 +32,7 @@ const forceUpdateKakao = async (req, res) => {
 };
 
 module.exports = {
-  forceUpdateAll,
-  forceUpdateNaver,
-  forceUpdateKakao,
+  UpdateAll,
+  UpdateNaver,
+  UpdateKakao,
 };
