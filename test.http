@@ -1,0 +1,35 @@
+@hostname = http://localhost:3001
+
+GET {{hostname}}
+###
+
+# new
+GET {{hostname}}/new
+###
+GET {{hostname}}/new/naver
+###
+GET {{hostname}}/new/kakao
+###
+
+
+# db
+GET {{hostname}}/db
+###
+GET {{hostname}}/db/naver
+###
+GET {{hostname}}/db/kakao
+###
+DELETE {{hostname}}/db
+###
+DELETE {{hostname}}/db/naver
+###
+DELETE {{hostname}}/db/kakao
+###
+
+# update
+GET {{hostname}}/update
+###
+GET {{hostname}}/update/naver
+###
+GET {{hostname}}/update/kakao
+###

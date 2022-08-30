@@ -1,0 +1,30 @@
+{
+  "name": "crawling",
+  "version": "1.0.0",
+  "description": "webtoon crawling app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -L index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DynePark9111/crawling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DynePark9111/crawling/issues"
+  },
+  "homepage": "https://github.com/DynePark9111/crawling#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.3",
+    "node-schedule": "^2.1.0",
+    "puppeteer": "^16.2.0"
+  }
+}
