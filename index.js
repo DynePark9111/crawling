@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 // require("./src/utils/scheduler");
-const checkRoutes = require("./src/routes/check.routes");
+const newRoutes = require("./src/routes/new.routes");
 const updateRoutes = require("./src/routes/update.routes");
 const dbRoutes = require("./src/routes/db.routes");
 
@@ -30,7 +30,7 @@ mongoose
 //
 
 // Routes
-app.use("/new", checkRoutes);
+app.use("/new", newRoutes);
 app.use("/db", dbRoutes);
 app.use("/update", updateRoutes);
 

@@ -23,9 +23,9 @@ function getUniqueObjectFromArray(data) {
 async function postMongoDB(data) {
   try {
     await NewWebtoon.insertMany(data);
-    console.log("upload successful!");
+    logTime("upload successful!");
   } catch (err) {
-    console.log("upload failed!");
+    logTime("upload failed!");
     console.log(err);
   }
 }

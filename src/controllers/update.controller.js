@@ -3,9 +3,11 @@ const { checkAndUpdateKakao } = require("../utils/kakao");
 const { checkAndUpdateNaver } = require("../utils/naver");
 
 const UpdateAll = async (req, res) => {
-  const result = { message: "updateAll" };
+  logTime("UpdateAll");
   try {
-    res.status(201).json(result);
+    const webtoonsUpdatedNaver = await checkAndUpdateNaver();
+    const webtoonsUpdatedKakao = await checkAndUpdateKakao();
+    res.status(201).json({ webtoonsUpdatedNaver, webtoonsUpdatedKakao });
   } catch (error) {
     res.status(409).json({ message: `updateAll error` });
   }

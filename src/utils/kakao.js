@@ -44,7 +44,6 @@ const loginKakao = async (page) => {
   await new Promise(function (resolve) {
     setTimeout(resolve, 2000);
   });
-  console.log("kakao login");
   await Promise.all([
     page.goto(
       "https://webtoon.kakao.com/content/%EB%AA%BB%ED%95%A0-%EC%A7%93/2940"
@@ -59,7 +58,6 @@ const getUpdatedListKakao = async () => {
   const xPath = `//p[@class="whitespace-pre-wrap break-all break-words support-break-word font-badge !whitespace-nowrap mx-2 s11-bold-dark-red bg-white px-6"]/ancestor::a[@class="w-full h-full relative overflow-hidden before:absolute before:inset-0 before:bg-grey-01 before:-z-1"]`;
   let $webtoonList = await page.$x(xPath);
   let webtoonsLength = $webtoonList.length;
-  console.log(webtoonsLength);
   closeBrowser(browser);
   return [webtoonsLength];
 };
@@ -87,7 +85,6 @@ const getPrimaryDataKakao = async () => {
     }
   }
   closeBrowser(browser);
-  console.log(webtoonsBasic);
   return webtoonsBasic;
 };
 
@@ -131,7 +128,6 @@ const updateKakao = async () => {
       });
     }
   }
-  console.log(webtoons);
   closeBrowser(browser);
   return webtoons;
 };

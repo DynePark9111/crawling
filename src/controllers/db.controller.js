@@ -1,4 +1,4 @@
-const { getMongoDB } = require("../utils/functions");
+const { getMongoDB, deleteMongoDB } = require("../utils/functions");
 
 const getAllDB = async (req, res) => {
   try {
@@ -20,22 +20,22 @@ const getDB = async (req, res) => {
   }
 };
 
-const deleteAllDB = async (req, res) => {
+const deleteDB = async (req, res) => {
   const { platform } = req.params;
   try {
     deleteMongoDB(platform);
-    res.status(201).json({ message: "reset successful" });
+    res.status(201).json({ message: `deleted ${platform} webtoon from DB` });
   } catch (error) {
-    res.status(409).json({ message: `deleteAllDB error` });
+    res.status(409).json({ message: `deleteDB error` });
   }
 };
 
-const deleteDB = async (req, res) => {
+const deleteAllDB = async (req, res) => {
   try {
     deleteMongoDB();
-    res.status(201).json({ message: "reset successful" });
+    res.status(201).json({ message: `deleted all webtoon from DB` });
   } catch (error) {
-    res.status(409).json({ message: `deleteDB error` });
+    res.status(409).json({ message: `deleteAllDB error` });
   }
 };
 
