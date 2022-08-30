@@ -2,15 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
-require("./src/utils/scheduler");
-const checkRoutes = require("./src/routes/check.routes");
+// require("./src/utils/scheduler");
+const newRoutes = require("./src/routes/new.routes");
 const updateRoutes = require("./src/routes/update.routes");
-const testRoutes = require("./src/routes/test.routes");
+const dbRoutes = require("./src/routes/db.routes");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI;
-const ORIGIN = process.env.ORIGIN;
+const ORIGIN = process.env.ORIGIN || "*";
 
 // Middleware
 app.use(express.json());
@@ -30,9 +30,9 @@ mongoose
 //
 
 // Routes
-app.use("/check", checkRoutes);
+app.use("/new", newRoutes);
+app.use("/db", dbRoutes);
 app.use("/update", updateRoutes);
-app.use("/test", testRoutes);
 
 app.get("/", (req, res) => {
   res.send(`crawl app listening on port ${PORT}`);

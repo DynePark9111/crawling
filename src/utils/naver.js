@@ -1,20 +1,12 @@
 const cheerio = require("cheerio");
-const axios = require("axios");
 const {
   logTime,
   getMongoDB,
   getUniqueObjectFromArray,
   postMongoDB,
+  getHTML,
 } = require("./functions");
 const NaverURL = "https://comic.naver.com/webtoon/weekday";
-
-const getHTML = async (url) => {
-  try {
-    return await axios.get(url);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const getUpdatedList = async () => {
   const html = await getHTML(NaverURL);
