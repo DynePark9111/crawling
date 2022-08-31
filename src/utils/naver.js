@@ -8,16 +8,18 @@ const {
 } = require("./functions");
 const NaverURL = "https://comic.naver.com/webtoon/weekday";
 
-const getUpdatedList = async () => {
+const getUpdatedListNaver = async () => {
   const html = await getHTML(NaverURL);
   const $ = cheerio.load(html.data);
   const $webtoonList = $(".ico_updt");
   const webtoonsLength = $webtoonList.length;
-  return [webtoonsLength, $, $webtoonList];
+  return webtoonsLength;
 };
 
 const getPrimaryData = async () => {
-  const [webtoonsLength, $, $webtoonList] = await getUpdatedList();
+  const html = await getHTML(NaverURL);
+  const $ = cheerio.load(html.data);
+  const $webtoonList = $(".ico_updt");
   const webtoons = [];
   $webtoonList.each((index, node) => {
     const title = $(node).siblings("img").attr("title");
@@ -53,10 +55,11 @@ const UpdateNaver = async () => {
 };
 
 const checkAndUpdateNaver = async () => {
-  const dbData = await getMongoDB("naver");
-  const [webtoonsLength] = await getUpdatedList();
-
-  if (webtoonsLength > dbData.length) {
+  const [dbData, webtoonsLength] = await Promise.all([
+    getMongoDB("naver"),
+    getUpdatedListNaver(),
+  ]);
+  if (webtoonsLength !== dbData.length) {
     const crawled = await UpdateNaver();
     const onlyNew = getUniqueObjectFromArray([...dbData, ...crawled]);
     postMongoDB(onlyNew);
@@ -64,7 +67,12 @@ const checkAndUpdateNaver = async () => {
     return onlyNew.length;
   } else {
     logTime(`Naver | Nothing to upload`);
+    return 0;
   }
 };
 
-module.exports = { getUpdatedList, UpdateNaver, checkAndUpdateNaver };
+module.exports = {
+  getUpdatedListNaver,
+  UpdateNaver,
+  checkAndUpdateNaver,
+};

@@ -59,7 +59,7 @@ const getUpdatedListKakao = async () => {
   let $webtoonList = await page.$x(xPath);
   let webtoonsLength = $webtoonList.length;
   closeBrowser(browser);
-  return [webtoonsLength];
+  return webtoonsLength;
 };
 
 const getPrimaryDataKakao = async () => {
@@ -89,54 +89,62 @@ const getPrimaryDataKakao = async () => {
 };
 
 const updateKakao = async () => {
-  const [browser, page] = await openBrowser();
-  loginKakao(page);
-  const xPath = `(//p[@class="whitespace-pre-wrap break-all break-words support-break-word font-badge !whitespace-nowrap absolute left-2 top-2 s10-bold-black bg-white border border-solid border-black/25 px-5"])[1]/preceding-sibling::picture`;
+  // const [browser, page] = await openBrowser();
+  // loginKakao(page);
+  // const xPath = `(//p[@class="whitespace-pre-wrap break-all break-words support-break-word font-badge !whitespace-nowrap absolute left-2 top-2 s10-bold-black bg-white border border-solid border-black/25 px-5"])[1]/preceding-sibling::picture`;
   const webtoonsBasic = await getPrimaryDataKakao();
   const webtoons = [];
 
   for (webtoon of webtoonsBasic) {
-    await Promise.all([
-      page.goto(webtoon.link, { waitUntil: "domcontentloaded" }),
-      page.waitForNavigation(),
-      page.waitForSelector("img"),
-    ]);
-    let $webtoonLatest = await page.$x(xPath);
+    // await Promise.all([
+    //   page.goto(webtoon.link, { waitUntil: "domcontentloaded" }),
+    //   page.waitForNavigation(),
+    //   page.waitForSelector("img"),
+    // ]);
     let episodeLink = webtoon.link;
     let episodeTitle = webtoon.title;
     let platform = "kakao";
-    if ($webtoonLatest[0]) {
-      let episodeTitle = await page.evaluate(
-        (el) =>
-          el
-            .querySelector("img.w-full.h-full.object-cover")
-            .getAttribute("alt"),
-        $webtoonLatest[0]
-      );
-      webtoons.push({
-        episodeTitle,
-        episodeLink,
-        platform,
-        ...webtoon,
-      });
-    } else {
-      webtoons.push({
-        episodeTitle,
-        episodeLink,
-        platform,
-        ...webtoon,
-      });
-    }
+    webtoons.push({
+      episodeTitle,
+      episodeLink,
+      platform,
+      ...webtoon,
+    });
+    // let $webtoonLatest = await page.$x(xPath);
+    // if ($webtoonLatest[0]) {
+    //   let episodeTitle = await page.evaluate(
+    //     (el) =>
+    //       el
+    //         .querySelector("img.w-full.h-full.object-cover")
+    //         .getAttribute("alt"),
+    //     $webtoonLatest[0]
+    //   );
+    //   webtoons.push({
+    //     episodeTitle,
+    //     episodeLink,
+    //     platform,
+    //     ...webtoon,
+    //   });
+    // } else {
+    //   webtoons.push({
+    //     episodeTitle,
+    //     episodeLink,
+    //     platform,
+    //     ...webtoon,
+    //   });
+    // }
   }
-  closeBrowser(browser);
+  // closeBrowser(browser);
   return webtoons;
 };
 
 const checkAndUpdateKakao = async () => {
-  const dbData = await getMongoDB("kakao");
-  const [webtoonsLength] = await getUpdatedListKakao();
+  const [dbData, webtoonsLength] = await Promise.all([
+    getMongoDB("kakao"),
+    getUpdatedListKakao(),
+  ]);
 
-  if (webtoonsLength > dbData.length) {
+  if (webtoonsLength !== dbData.length) {
     const crawled = await updateKakao();
     const onlyNew = getUniqueObjectFromArray([...dbData, ...crawled]);
     postMongoDB(onlyNew);
@@ -144,6 +152,7 @@ const checkAndUpdateKakao = async () => {
     return onlyNew.length;
   } else {
     logTime(`Kakao | Nothing to upload`);
+    return 0;
   }
 };
 

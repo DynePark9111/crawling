@@ -5,9 +5,11 @@ const { checkAndUpdateNaver } = require("../utils/naver");
 const UpdateAll = async (req, res) => {
   logTime("UpdateAll");
   try {
-    const webtoonsUpdatedNaver = await checkAndUpdateNaver();
-    const webtoonsUpdatedKakao = await checkAndUpdateKakao();
-    res.status(201).json({ webtoonsUpdatedNaver, webtoonsUpdatedKakao });
+    const [naverUpdated, kakaoUpdated] = await Promise.all([
+      checkAndUpdateNaver(),
+      checkAndUpdateKakao(),
+    ]);
+    res.status(201).json({ naverUpdated, kakaoUpdated });
   } catch (error) {
     res.status(409).json({ message: `updateAll error` });
   }
@@ -16,8 +18,8 @@ const UpdateAll = async (req, res) => {
 const UpdateNaver = async (req, res) => {
   logTime("UpdateNaver");
   try {
-    const webtoonsUpdated = await checkAndUpdateNaver();
-    res.status(201).json({ webtoonsUpdated });
+    const naverUpdated = await checkAndUpdateNaver();
+    res.status(201).json({ naverUpdated });
   } catch (error) {
     res.status(409).json({ message: `updateNaver error` });
   }
@@ -26,8 +28,8 @@ const UpdateNaver = async (req, res) => {
 const UpdateKakao = async (req, res) => {
   logTime("UpdateKakao");
   try {
-    const webtoonsUpdated = await checkAndUpdateKakao();
-    res.status(201).json({ webtoonsUpdated });
+    const kakaoUpdated = await checkAndUpdateKakao();
+    res.status(201).json({ kakaoUpdated });
   } catch (error) {
     res.status(409).json({ message: `updateKakao error` });
   }
