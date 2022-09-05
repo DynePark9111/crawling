@@ -1,4 +1,4 @@
-@hostname = http://localhost:3001
+@hostname = http://localhost:3002
 
 GET {{hostname}}
 ###

@@ -12,7 +12,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const ORIGIN = process.env.ORIGIN || "*";
 
 // cronjob
-require("./src/utils/scheduler");
+// require("./src/utils/scheduler");
 
 // Middleware
 app.use(express.json());

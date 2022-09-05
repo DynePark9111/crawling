@@ -147,6 +147,11 @@ const checkAndUpdateKakao = async () => {
   if (webtoonsLength !== dbData.length) {
     const crawled = await updateKakao();
     const onlyNew = getUniqueObjectFromArray([...dbData, ...crawled]);
+    if (onlyNew.length === 0) {
+      message = `Kakao | Everything is up to Date. There's nothing to upload`;
+      logTime(message);
+      return message;
+    }
     postMongoDB(onlyNew);
     logTime(`Kakao | uploaded: ${onlyNew.length}`);
     return onlyNew.length;
